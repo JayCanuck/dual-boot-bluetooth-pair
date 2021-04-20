@@ -1,12 +1,11 @@
+#!/usr/bin/env python3
 import configparser
 import argparse
-
 
 def _parse_args():
     """Parse arguments."""
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '--reg_path', help='Path to reg file.', default='keys.reg')
+    parser.add_argument('--reg_path', help='Path to reg file.', default='keys.reg', type=str)
 
     return parser.parse_args()
 
@@ -61,34 +60,35 @@ def _format_ltk(ltk):
     return ltk.lstrip('hex:').upper().replace(',', '')
 
 
-def _format_csrk(csrk):
-    """ Convert CSRK to uppercase and remove commas."""
-    return csrk.replace('hex:', '').replace(',', '').upper()
+def _format_irk(irk):
+    """ Convert irk to uppercase and remove commas."""
+    return irk.replace('hex:', '').replace(',', '').upper()
 
 
 def _process_reg_file(config):
     """ Process the reg file."""
     sections = config.sections()
-    for section in sections:
+    for section in sections:        
         if len(section) < 98:
             continue
-        print('\n')
-        print('Dir Name: /var/lib/bluetooth/{}'.format(
-            _bluetooth_dir_name(section)))
-        print('LongTermKey')
-        print('  Key: {}'.format(_format_ltk(config[section]['LTK'])))
-        print('  EncSize: 16')
-        print('  EDiv: {}'.format(_format_ediv(config[section]['EDIV'])))
-        print('  Rand: {}'.format(_format_erand(config[section]['ERand'])))
-        print('LocalSignatureKey')
-        print('  Key: {}'.format(
-            _format_csrk(config[section]['CSRK'])))
-        print('\n====================================\n')
+        # print('\n')
+        print(f'Replace in /var/lib/bluetooth/{_bluetooth_dir_name(section)}/info:\n')
+
+        print('[IdentityResolvingKey]') # was LocalSignatureKey?
+        print('Key={}'.format(_format_irk(config[section]['IRK']))) 
+
+        print('\n[LongTermKey]') # was LinkKey?
+        print('Key={}'.format(_format_ltk(config[section]['LTK'])))
+        print('EncSize=16')
+        print('EDiv={}'.format(_format_ediv(config[section]['EDIV'])))
+        print('Rand={}'.format(_format_erand(config[section]['ERand'])))
+        
 
 
 def main():
-    """ Main entrypoint to script. """
-    args = _parse_args()
+    """ Main entrypoint to script. """    
+    
+    args = _parse_args()    
     config = _open_reg_file(args.reg_path)
     _process_reg_file(config)
 
@@ -96,10 +96,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-# reg_str = reg_file_to_str('/home/mark/Desktop/BTKeys.reg')
-# file_path_to_dict(reg_str)
-
-
-
-# Print

@@ -6,8 +6,8 @@ import codecs
 def _parse_args():
     """Parse arguments."""
     parser = argparse.ArgumentParser()
-    parser.add_argument('file_path', help='Path of file to convert.')
-    parser.add_argument('output', help='Output location of file.')
+    parser.add_argument('--file_path', help='Path of file to convert.',type=str)
+    parser.add_argument('--output', help='Output location of file.',type=str)
 
     return parser.parse_args()
 
