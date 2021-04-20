@@ -1,7 +1,7 @@
 
 # Dual Boot Bluetooth Pair
 
-This is a tool I use to pair a bluetooth device with my Windows OS and Linux Mint 17 OS on my dual boot laptop.
+This is a tool I use to pair a bluetooth device with my Windows OS and Manjaro OS on my dual boot laptop.
 
 ## Disclaimer
 
