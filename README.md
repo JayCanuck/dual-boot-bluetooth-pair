@@ -24,7 +24,7 @@ PsExec64.exe -s -i regedit /e C:\BTKeys.reg HKEY_LOCAL_MACHINE\SYSTEM\ControlSet
 ```
 
  4. Copy the `C:\BTKeys.reg` file to a USB key (or leave on `C:` drive if it's accessible from the Linux OS).
- 5. Turn off bluetooth device(s) and boot back into Linux. Don't pair the device again in linux. It might generate a new mac address, which will break the Windows pairing. (I don't know if this is normal, but it's what happens with my Logitech G604).
+ 5. Turn off bluetooth device(s) and boot back into Linux. Don't pair the device again in Linux. It might generate a new mac address, which will break the Windows pairing. (I don't know if this is normal, but it's what happens with my Logitech G604).
  6. Copy the `BTKeys.reg` file to your Linux filesystem.
  7. Run `clean_reg_file.py --file_path BTKeys.reg --output clean.reg` to clean the file (converts encoding to UTF8 and strips quotation marks).
  8. Run `bluetooth_fix.py --reg_path clean.reg`.
