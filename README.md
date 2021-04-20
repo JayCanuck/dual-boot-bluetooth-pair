@@ -26,7 +26,7 @@ PsExec64.exe -s -i regedit /e C:\BTKeys.reg HKEY_LOCAL_MACHINE\SYSTEM\ControlSet
  6. Copy the `BTKeys.reg` file to your Linux filesystem.
  7. Run `clean_reg_file.py --file_path BTKeys.reg --output clean.reg` to clean the file (converts encoding to UTF8 and strips quotation marks).
  8. Run `bluetooth_fix.py --reg_path clean.reg`.
- 9. From a terminal with `sudo`, navigate to `/var/lib/bluetooth/<ADAPTOR_MAC_ADDRESS>/` and use `ls` to get the mac addresses similar to the bluetooth device you are trying to pair, and re-name the directory to the new mac displayed in the output from step 8.
+ 9. From a terminal with `sudo`, navigate to `/var/lib/bluetooth/<ADAPTOR_MAC_ADDRESS>/`.
  10. Make a new directory corresponding to the device mac address from `BTKeys.reg`.
  11. Copy `info` and `attributes` from the old mac address directory to the new one.
  12. Open `/var/lib/bluetooth/<ADAPTOR_MAC>/<NEW_DEVICE_MAC>/info` and modify the values as per output from step 8.
