@@ -1,7 +1,10 @@
 
 # Dual Boot Bluetooth Pair
 
-This is a tool I use to pair a bluetooth device with my Windows OS and Manjaro OS on my dual boot laptop.
+> This is a tool to pair a bluetooth device with Windows and Linux distributions such as Ubunutu or Manjaro, on a dual boot machine.
+
+Forked from [gawells/dual-boot-bluetooth-pair](https://github.com/gawells/dual-boot-bluetooth-pair) to fix handling with Windows 11 registry output.
+Tested with the bluetooth Surface Mobile Mouse on Windows 11 and Ubuntu 22.04 LTS.
 
 ## Disclaimer
 

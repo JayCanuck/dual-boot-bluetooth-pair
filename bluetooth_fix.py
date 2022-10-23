@@ -64,26 +64,32 @@ def _format_irk(irk):
     """ Convert irk to uppercase and remove commas."""
     return irk.replace('hex:', '').replace(',', '').upper()
 
+def _output_section(config, section, irk):
+    # print('\n')
+    print(f'Replace in /var/lib/bluetooth/{_bluetooth_dir_name(section)}/info:\n')
+
+    print('[IdentityResolvingKey]') # was LocalSignatureKey?
+    print('Key={}'.format(_format_irk(irk))) 
+
+    print('\n[LongTermKey]') # was LinkKey?
+    print('Key={}'.format(_format_ltk(config[section]['LTK'])))
+    print('EncSize=16')
+    print('EDiv={}'.format(_format_ediv(config[section]['EDIV'])))
+    print('Rand={}'.format(_format_erand(config[section]['ERand'])))
+
 
 def _process_reg_file(config):
     """ Process the reg file."""
     sections = config.sections()
-    for section in sections:        
-        if len(section) < 98:
-            continue
-        # print('\n')
-        print(f'Replace in /var/lib/bluetooth/{_bluetooth_dir_name(section)}/info:\n')
-
-        print('[IdentityResolvingKey]') # was LocalSignatureKey?
-        print('Key={}'.format(_format_irk(config[section]['IRK']))) 
-
-        print('\n[LongTermKey]') # was LinkKey?
-        print('Key={}'.format(_format_ltk(config[section]['LTK'])))
-        print('EncSize=16')
-        print('EDiv={}'.format(_format_ediv(config[section]['EDIV'])))
-        print('Rand={}'.format(_format_erand(config[section]['ERand'])))
-        
-
+    for section in sections:
+        if 'CentralIRK' in config[section]:
+            subsection = [sub for sub in sections if sub.startswith(section + '\\')][0]
+            sections.remove(subsection);
+            _output_section(config, subsection, config[section]['CentralIRK'])
+        else:
+            if len(section) < 98:
+                continue;
+            _output_section(config, section, config[section]['IRK'])
 
 def main():
     """ Main entrypoint to script. """    
